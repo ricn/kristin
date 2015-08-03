@@ -45,6 +45,7 @@ Kristin.convert('document.pdf', 'document.html', { first_page: 2, last_page: 4, 
 # zoom - zoom ratio. Default: 1.0
 # fit_width - fit width (pixels). Example: fit_width: 1024 
 # fit_height - fit height (pixels). Example: fit_height: 1024   
+# split_pages - if true, output is split into pages. Example: split_pages: true
 
 ```
 
