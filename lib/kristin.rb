@@ -18,12 +18,23 @@ module Kristin
       args = [pdf2htmlex_command, opts, src, @target].flatten
       pid = Spoon.spawnp(*args)
       Process.waitpid(pid)
-      
+
       ## TODO: Grab error message from pdf2htmlex and raise a better error
       raise IOError, "Could not convert #{src}" if $?.exitstatus != 0
+    ensure
+      Process.kill('KILL', pid) if process_available?(pid)
     end
 
     private
+
+    def process_available?(pid)
+      begin
+        Process.getpgid(pid)
+        true
+      rescue Errno::ESRCH
+        false
+      end
+    end
 
     def process_options
       opts = []
@@ -81,7 +92,7 @@ module Kristin
       is_http = URI(source).scheme == "http"
       is_https = URI(source).scheme == "https"
       raise IOError, "Source (#{source}) is neither a file nor an URL." unless is_file || is_http || is_https
-    
+
       is_file ? source : download_file(source)
     end
   end
