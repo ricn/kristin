@@ -48,6 +48,8 @@ module Kristin
       opts.push("--fit-height #{@options[:fit_height]}") if @options[:fit_height]
       opts.push("--split-pages 1") if @options[:split_pages]
       opts.push("--data-dir #{@options[:data_dir]}") if @options[:data_dir]
+      opts.push("--tounicode #{@options[:tounicode]}") if @options[:tounicode]
+      opts.push("--optimize-text #{@options[:optimize_text]}") if @options[:optimize_text]
       opts.join(" ")
     end
 
