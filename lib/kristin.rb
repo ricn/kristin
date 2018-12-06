@@ -16,8 +16,8 @@ module Kristin
       src = determine_source(@source)
       opts = process_options.split(" ")
       args = [pdf2htmlex_command, opts, src, @target].flatten
+      pid = Spoon.spawnp(*args)
       Timeout.timeout(timeout) do
-        pid = Spoon.spawnp(*args)
         Process.waitpid(pid)
         ## TODO: Grab error message from pdf2htmlex and raise a better error
         raise IOError, "Could not convert #{src}" if $?.exitstatus != 0
