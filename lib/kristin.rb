@@ -11,13 +11,14 @@ module Kristin
       @target = target
     end
 
-    def convert(timeout = 30)
+    def convert()
       raise IOError, "Can't find pdf2htmlex executable in PATH" if not command_available?
+      @options[:timeout] ||= 30
       src = determine_source(@source)
       opts = process_options.split(" ")
       args = [pdf2htmlex_command, opts, src, @target].flatten
       pid = Spoon.spawnp(*args)
-      Timeout.timeout(timeout) do
+      Timeout.timeout(@options[:timeout]) do
         Process.waitpid(pid)
         ## TODO: Grab error message from pdf2htmlex and raise a better error
         raise IOError, "Could not convert #{src}" if $?.exitstatus != 0
