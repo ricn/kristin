@@ -48,7 +48,7 @@ module Kristin
       cmd = nil
       cmd = "pdf2htmlex" if which("pdf2htmlex")
       cmd = "pdf2htmlEX" if which("pdf2htmlEX")
-      cmp = @options[:cmd] if @options[:cmd]
+      cmd = @options[:cmd] if @options[:cmd]
     end
 
     def which(cmd)
