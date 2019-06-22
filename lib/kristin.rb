@@ -18,7 +18,7 @@ module Kristin
       args = [pdf2htmlex_command, opts, src, @target].flatten
       pid = Spoon.spawnp(*args)
       Process.waitpid(pid)
-      
+
       ## TODO: Grab error message from pdf2htmlex and raise a better error
       raise IOError, "Could not convert #{src}" if $?.exitstatus != 0
     end
@@ -48,6 +48,7 @@ module Kristin
       cmd = nil
       cmd = "pdf2htmlex" if which("pdf2htmlex")
       cmd = "pdf2htmlEX" if which("pdf2htmlEX")
+      cmp = @options[:cmd] if @options[:cmd]
     end
 
     def which(cmd)
@@ -81,7 +82,7 @@ module Kristin
       is_http = URI(source).scheme == "http"
       is_https = URI(source).scheme == "https"
       raise IOError, "Source (#{source}) is neither a file nor an URL." unless is_file || is_http || is_https
-    
+
       is_file ? source : download_file(source)
     end
   end
