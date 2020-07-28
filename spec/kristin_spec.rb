@@ -1,7 +1,7 @@
 require 'spec_helper'
+require 'pry'
+describe Kristin do
 
-describe Kristin do 
-  
   before(:all) do
     @one_page_pdf = file_path("one.pdf")
     @multi_page_pdf = file_path("multi.pdf")

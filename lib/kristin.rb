@@ -18,7 +18,7 @@ module Kristin
       args = [pdf2htmlex_command, opts, src, @target].flatten
       pid = Spoon.spawnp(*args)
       Process.waitpid(pid)
-      
+
       ## TODO: Grab error message from pdf2htmlex and raise a better error
       raise IOError, "Could not convert #{src}" if $?.exitstatus != 0
     end
@@ -27,6 +27,13 @@ module Kristin
 
     def process_options
       opts = []
+
+      if @target && (@target == File.absolute_path(@target))
+        abs_path = File.absolute_path(@target)
+        @target = File.basename(@target)
+        @options[:dest_dir] = File.absolute_path(abs_path.gsub(@target,''))
+      end
+
       opts.push("--process-outline 0") if @options[:process_outline] == false
       opts.push("--first-page #{@options[:first_page]}") if @options[:first_page]
       opts.push("--last-page #{@options[:last_page]}") if @options[:last_page]
@@ -37,6 +44,8 @@ module Kristin
       opts.push("--fit-height #{@options[:fit_height]}") if @options[:fit_height]
       opts.push("--split-pages 1") if @options[:split_pages]
       opts.push("--data-dir #{@options[:data_dir]}") if @options[:data_dir]
+      opts.push("--dest-dir #{@options[:dest_dir]}") if @options[:dest_dir]
+      opts.push("--tmp-dir #{@options[:tmp_dir]}") if @options[:tmp_dir]
       opts.join(" ")
     end
 
@@ -81,7 +90,7 @@ module Kristin
       is_http = URI(source).scheme == "http"
       is_https = URI(source).scheme == "https"
       raise IOError, "Source (#{source}) is neither a file nor an URL." unless is_file || is_http || is_https
-    
+
       is_file ? source : download_file(source)
     end
   end
