@@ -31,7 +31,7 @@ module Kristin
       if @target && (@target == File.absolute_path(@target))
         abs_path = File.absolute_path(@target)
         @target = File.basename(@target)
-        @options[:dest_dir] == File.absolute_path(abs_path.gsub(@target,''))
+        @options[:dest_dir] = File.absolute_path(abs_path.gsub(@target,''))
       end
 
       opts.push("--process-outline 0") if @options[:process_outline] == false
