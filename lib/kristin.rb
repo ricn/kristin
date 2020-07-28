@@ -28,12 +28,12 @@ module Kristin
     def process_options
       opts = []
 
-      if @target && (@target == File.absolute_path(@target)) && @options[:dest_dir].nil?
+      if @target && (@target == File.absolute_path(@target))
         abs_path = File.absolute_path(@target)
         @target = File.basename(@target)
         @options[:dest_dir] == File.absolute_path(abs_path.gsub(@target,''))
       end
-      
+
       opts.push("--process-outline 0") if @options[:process_outline] == false
       opts.push("--first-page #{@options[:first_page]}") if @options[:first_page]
       opts.push("--last-page #{@options[:last_page]}") if @options[:last_page]
