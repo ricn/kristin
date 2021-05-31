@@ -46,6 +46,14 @@ module Kristin
       opts.push("--data-dir #{@options[:data_dir]}") if @options[:data_dir]
       opts.push("--dest-dir #{@options[:dest_dir]}") if @options[:dest_dir]
       opts.push("--tmp-dir #{@options[:tmp_dir]}") if @options[:tmp_dir]
+      # Enable some more options
+      opts.push("--process-form 1") if @options[:process_form] == true
+      opts.push("--process-annotation 1") if @options[:process_annotation] == true
+      opts.push("--optimize-text 1") if @options[:optimize_text] == true
+      opts.push("--correct-text-visibility 1") if @options[:correct_text_visibility] == true
+      opts.push("--stretch-narrow-glyph 1") if @options[:stretch_narrow_glyph] == true
+      opts.push("--embed-external-font 0") if @options[:embed_external_font] == false
+      opts.push("--printing 0") if @options[:printing] == false
       opts.join(" ")
     end
 
